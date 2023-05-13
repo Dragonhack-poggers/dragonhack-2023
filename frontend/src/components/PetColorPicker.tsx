@@ -1,6 +1,6 @@
 import { Text, TouchableOpacity, StyleSheet } from "react-native";
 import React from "react";
-import { PetColorOption } from "../Screens/PetCreation";
+import { PetColorOption } from "../Screens/ChatCentre";
 
 import { theme } from "../theme";
 import { PetColors } from "../data/types";

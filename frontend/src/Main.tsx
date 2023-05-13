@@ -4,14 +4,14 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
  * Screens
  */
 import Home from "./Screens/Home";
-import PetCreation from "./Screens/PetCreation";
+import ChatCentre from "./Screens/ChatCentre";
 import Scan from "./Screens/Scan";
 import SplashScreen from "./Screens/SplashScreen";
 import { useAppStore } from "./store/app-store";
 import { theme } from "./theme";
 
 export type MainStackParams = {
-  PetCreation: undefined;
+  ChatCentre: undefined;
   Home: undefined;
   Scan: undefined;
   SplashScreen: undefined;
@@ -26,9 +26,9 @@ const Main = () => {
     <Stack.Navigator>
       {petNotFound ? (
         <Stack.Screen
-          name='PetCreation'
-          component={PetCreation}
-          options={{ headerStyle: { backgroundColor: theme.colors.g1 }, headerTintColor: "#fff", headerTitle: "" }}
+          name='ChatCentre'
+          component={ChatCentre}
+          options={{ headerShown: false }}
         />
       ) : (
         <>
