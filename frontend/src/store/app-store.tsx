@@ -1,9 +1,7 @@
-import React, { createContext, useContext } from "react";
+import React, { createContext, useContext, useEffect } from "react";
 import useDeviceUuid from "../hooks/useDeviceUuid";
 import { IResponse, createNewPet, sendImage as sendImageApi, usePet } from "../data/api";
 import { IPet, PetColors } from "../data/types";
-import { ActivityIndicator } from "react-native";
-import { theme } from "../theme";
 import SplashScreen from "../Screens/SplashScreen";
 
 interface MyContextType {
@@ -26,6 +24,7 @@ const useAppStore = () => useContext(AppContext);
 const AppStore = ({ children }: { children: React.ReactNode | React.ReactNode[] }) => {
   const { deviceId } = useDeviceUuid();
   const { data: pet, isLoading, isError: petNotFound, refetch: refetchPet } = usePet(deviceId);
+  const [hasSplashScreenLoaded, setHadSplashScreenLoaded] = React.useState(false);
 
   const createPet = async (input: { color: PetColors; name: string }) => {
     const { color, name } = input;
@@ -50,9 +49,17 @@ const AppStore = ({ children }: { children: React.ReactNode | React.ReactNode[] 
     return { ok, label };
   };
 
-  if (isLoading) {
-    return <SplashScreen />;
+  useEffect(() => {
+    setTimeout(() => setHadSplashScreenLoaded(true), 6400)
+  }, []);
+  if (!hasSplashScreenLoaded) {
+    return <SplashScreen />
   }
+
+  /*if (isLoading) {
+    console.log(isLoading)
+    return <SplashScreen />;
+  }*/
 
   return (
     <AppContext.Provider value={{ deviceId, petNotFound, createPet, pet, sendImage }}>{children}</AppContext.Provider>

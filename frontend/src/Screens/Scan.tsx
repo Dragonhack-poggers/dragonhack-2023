@@ -88,9 +88,9 @@ const Scan = ({ navigation }: Props) => {
     setRatio(screenRatio);
   }, []);
 
-  if (loading) {
+  /*if (loading) {
     return <SplashScreen />;
-  }
+  }*/
 
   return (
     <View style={styles.container}>
