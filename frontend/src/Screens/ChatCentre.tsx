@@ -37,13 +37,23 @@ const ChatCentre = ({ navigation }: Props) => {
   const [color, setColor] = useState<PetColors>(PetColors.GREEN); // out
   const [name, setName] = useState(""); // out
 
+  const [count, setCount] = useState(0);
   const [text, setText] = useState("");
 
   const { createPet } = useAppStore();
 
   const handleTextChange = (newText: string) => {
     setText(newText);
+    setCount(newText.length);
   };
+
+  const handleMenuClick = async () => {
+    // Open modal for filters/parameters
+  }
+
+  const handleGenerateButtonClick = async () => {
+    // Call API to generate response
+  }
 
   const onSubmit = async () => {
     const ok = await createPet({ name, color });
@@ -68,18 +78,22 @@ const ChatCentre = ({ navigation }: Props) => {
             onChangeText={handleTextChange}
             multiline={true}
           />
-          <Image
-            style={styles.groupItem}
-            resizeMode="cover"
-            source={require("frontend/assets/group-44.png")}
-          />
+          <TouchableOpacity onPress={handleGenerateButtonClick}>
+            <Image
+              style={styles.groupItem}
+              resizeMode="cover"
+              source={require("frontend/assets/group-44.png")}
+            />
+          </TouchableOpacity>
         </View>
-        <Image
-          style={styles.menuIcon}
-          resizeMode="cover"
-          source={require("frontend/assets/menu-icon.png")}
-        />
-        <Text style={styles.text}>0/300</Text>
+        <TouchableOpacity onPress={handleMenuClick}>
+          <Image
+            style={styles.menuIcon}
+            resizeMode="cover"
+            source={require("frontend/assets/menu-icon.png")}
+          />
+        </TouchableOpacity>
+        <Text style={styles.text}>{count}/300</Text>
       </View>
     </Background>
   );
@@ -144,7 +158,9 @@ const styles = StyleSheet.create({
     height: 225,
     padding: 15,
     width: "100%",
-    borderRadius: 44,
+    borderRadius: 35,
+    borderBottomLeftRadius: 0,
+    borderBottomRightRadius: 0,
     backgroundColor: theme.colors.gray,
     fontSize: 18,
   },
@@ -190,8 +206,8 @@ const styles = StyleSheet.create({
     height: 25,
   },
   groupItem: {
-    top: 232,
-    left: 229,
+    top: 10,
+    left: 120,
     width: 55,
     height: 55,
     position: "absolute",
@@ -214,16 +230,10 @@ const styles = StyleSheet.create({
     left: 40,
   },
   menuIcon: {
-    height: "2.22%",
-    width: "5.87%",
-    top: "10.22%",
-    right: "83.47%",
-    bottom: "87.56%",
-    left: "10.67%",
+    top: 80,
+    left: 40,
     maxWidth: "100%",
     maxHeight: "100%",
-    position: "absolute",
-    overflow: "hidden",
   },
   inputText: {
     backgroundColor: "#fff",
@@ -232,7 +242,7 @@ const styles = StyleSheet.create({
   },
   text: {
     top: 380,
-    left: 195,
+    left: 250,
     color: "#bfabb5",
     width: 89,
     height: 36,
