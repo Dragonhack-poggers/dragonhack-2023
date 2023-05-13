@@ -14,5 +14,7 @@ export const theme = {
     gray: "#ECEBE8",
     blue: "#D4DEFF",
     pink: "#FFD4EE",
+    purple: "#403583",
+    orange: "rgba(224, 128, 70, 0.36)",
   },
 };

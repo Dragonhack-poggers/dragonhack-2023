@@ -9,7 +9,7 @@ interface BackgroundProps {
 
 const Background = ({ children }: BackgroundProps) => {
   return (
-    <LinearGradient style={styles.container} colors={[theme.colors.g1, theme.colors.g2, theme.colors.g3]}>
+    <LinearGradient style={styles.container} colors={[theme.colors.purple, theme.colors.orange]}>
       {children}
     </LinearGradient>
   );
