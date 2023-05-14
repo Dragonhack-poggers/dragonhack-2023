@@ -182,7 +182,7 @@ Project Link: [https://github.com/Dragonhack-poggers/dragonhack-2023](https://gi
 <!-- ACKNOWLEDGMENTS -->
 ## Acknowledgments
 
-* [Guide4Ever Amadej Šenk](https://github.com/Guide4Ever)
+* [Amadej Šenk](https://github.com/Guide4Ever)
 * [Luka Tomažič](https://github.com/ltomazic)
 * [FallingLights](https://github.com/FallingLights)
 * [Mark Muravec](https://github.com/MarkMuravec)
