@@ -24,7 +24,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/Dragonhack-poggers/dragonhack-2023">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
+    <img src="logo.gif" alt="Logo" width="200" height="200">
   </a>
 
 <h3 align="center">ChatBuddy: Need a chatty hook? Just let us cook.</h3>
