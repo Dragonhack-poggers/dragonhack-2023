@@ -2,6 +2,8 @@ import React, { createContext, useContext, useEffect } from "react";
 import useDeviceUuid from "../hooks/useDeviceUuid";
 import { IResponse, createNewPet, sendImage as sendImageApi, usePet } from "../data/api";
 import { IPet, PetColors } from "../data/types";
+import { ActivityIndicator } from "react-native";
+import { theme } from "../theme";
 import SplashScreen from "../Screens/SplashScreen";
 
 interface MyContextType {
@@ -50,7 +52,7 @@ const AppStore = ({ children }: { children: React.ReactNode | React.ReactNode[] 
   };
 
   useEffect(() => {
-    setTimeout(() => setHadSplashScreenLoaded(true), 6400)
+    setTimeout(() => setHadSplashScreenLoaded(true), 4000)
   }, []);
   if (!hasSplashScreenLoaded) {
     return <SplashScreen />

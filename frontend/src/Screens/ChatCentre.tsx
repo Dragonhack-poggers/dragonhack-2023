@@ -9,7 +9,9 @@ import { useAppStore } from "../store/app-store";
 import { MainStackParams } from "../Main";
 import { StackScreenProps } from "@react-navigation/stack";
 import { LinearGradient } from "expo-linear-gradient";
+import axios from "axios";
 
+const GIF_ANIMATION = require("frontend/assets/loading.gif");
 /* font sizes */
 const FontSize = {
   size_lg: 18,
@@ -36,6 +38,8 @@ const ChatCentre = ({ navigation }: Props) => {
 
   const [count, setCount] = useState(0);
   const [text, setText] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [chosenResponse, setChosenResponse] = useState<Array<String>>();
 
   const { createPet } = useAppStore();
 
@@ -49,18 +53,61 @@ const ChatCentre = ({ navigation }: Props) => {
   }
 
   const handleGenerateButtonClick = async () => {
-    // Call API to generate response
+    setIsLoading(true);
+    console.log("generate")
+    //const prompt = 'Give me relationship advice, give me 3 advices';
+    const model = 'gpt-4';
+    const maxTokens = 200;
+
+    const openaiEndpoint = 'https://openai-api.meetings.bio/api/openai/chat/completions';
+    const apiKey2 = 'je4DnpKkAMEutcMQ51IszBh0w2jfeW';
+    const apiKey = 'YpPZjNhlC258MzkDTmWol6ZuqWTDgi';
+
+    const headers = {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${apiKey}`,
+    };
+
+    const data = {
+      messages: [{ role: "user", content: text }],
+      model: model,
+      max_tokens: maxTokens,
+      n: 2,
+    };
+
+    axios
+      .post(`${openaiEndpoint}`, data, {
+        headers: headers,
+      })
+      .then((response) => {
+        const array = []
+        const answer = response.data.choices[0].message.content
+        array.push(answer)
+        const answer2 = response.data.choices[1].message.content
+        array.push(answer2)
+        setChosenResponse(array);
+        console.log(answer, answer2);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.log(error.response.data);
+      });
+
   }
 
   const onSubmit = async () => {
-    const ok = await createPet({ name, color });
+    /*const ok = await createPet({ name, color });
     if (ok) {
       navigation.navigate("Home");
-    }
+    }*/
   };
 
   return (
     <Background>
+      {isLoading &&
+        <View style={{ flex: 1, position: "absolute", backgroundColor: "rgba(100,100,100,0.8)", height: "100%", width: "100%", zIndex: 10, alignItems: "center" }} >
+          <Image style={{ flex: 1, position: "absolute" }} source={GIF_ANIMATION} resizeMode="contain" />
+        </View>}
       <View style={styles.chatScreen1}>
         <View style={[styles.vectorParent, styles.groupChildLayout]}>
           <Image

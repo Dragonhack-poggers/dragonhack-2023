@@ -5,9 +5,10 @@ import { theme } from "../theme";
 
 interface BackgroundProps {
   children: React.ReactNode | React.ReactNode[];
+  color?: string;
 }
 
-const Background = ({ children }: BackgroundProps) => {
+const Background = ({ children, color }: BackgroundProps) => {
   return (
     <LinearGradient style={styles.container} colors={[theme.colors.purple, theme.colors.orange]}>
       {children}
