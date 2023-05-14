@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TouchableOpacity, TextInput, Image } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, TextInput, Image, Modal, Pressable, Dimensions, Switch } from "react-native";
 import React, { useState } from "react";
 import Background from "../components/Background";
 import { theme } from "../theme";
@@ -10,7 +10,10 @@ import { MainStackParams } from "../Main";
 import { StackScreenProps } from "@react-navigation/stack";
 import { LinearGradient } from "expo-linear-gradient";
 import axios from "axios";
+import Slider from '@react-native-community/slider';
+import Carousel from 'react-native-snap-carousel';
 
+const { width, height } = Dimensions.get("window");
 const GIF_ANIMATION = require("frontend/assets/loading.gif");
 /* font sizes */
 const FontSize = {
@@ -33,13 +36,20 @@ export type PetColorOption = {
 };
 
 const ChatCentre = ({ navigation }: Props) => {
-  const [color, setColor] = useState<PetColors>(PetColors.GREEN); // out
-  const [name, setName] = useState(""); // out
 
   const [count, setCount] = useState(0);
   const [text, setText] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [isChosenResponse, setIsChosenResponse] = useState(true);
+
+  const [modalVisible, setModalVisible] = useState(false);
   const [chosenResponse, setChosenResponse] = useState<Array<String>>();
+
+  const [isRizzEnabled, setIsRizzEnabled] = useState(false);
+  const [isWeatherEnabled, setIsWeatherEnabled] = useState(false);
+  const [isJokesEnabled, setIsJokesEnabled] = useState(false);
+  const [isEmojisEnabled, setIsEmojisEnabled] = useState(false);
+  const [sarcasmLevel, setSarcasmLevel] = useState(5);
 
   const { createPet } = useAppStore();
 
@@ -49,10 +59,12 @@ const ChatCentre = ({ navigation }: Props) => {
   };
 
   const handleMenuClick = async () => {
+    setModalVisible(!modalVisible)
     // Open modal for filters/parameters
   }
 
   const handleGenerateButtonClick = async () => {
+    setIsChosenResponse(false);
     setIsLoading(true);
     console.log("generate")
     //const prompt = 'Give me relationship advice, give me 3 advices';
@@ -92,22 +104,93 @@ const ChatCentre = ({ navigation }: Props) => {
       .catch((error) => {
         console.log(error.response.data);
       });
-
   }
 
-  const onSubmit = async () => {
-    /*const ok = await createPet({ name, color });
-    if (ok) {
-      navigation.navigate("Home");
-    }*/
-  };
+  /*const renderCarouselItem = ({item, index}) => {
+    return (
+        <View style={styles.slide}>
+            <Text style={styles.title}>{ item.title }</Text>
+        </View>
+    );
+  }*/
 
   return (
     <Background>
-      {isLoading &&
+      {(isLoading /*|| !isChosenResponse*/) &&
         <View style={{ flex: 1, position: "absolute", backgroundColor: "rgba(100,100,100,0.8)", height: "100%", width: "100%", zIndex: 10, alignItems: "center" }} >
-          <Image style={{ flex: 1, position: "absolute" }} source={GIF_ANIMATION} resizeMode="contain" />
+          {isLoading && <Image style={{ flex: 1, position: "absolute" }} source={GIF_ANIMATION} resizeMode="contain" />}
+          {!isChosenResponse && <View />}
         </View>}
+      {modalVisible &&
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          style={{ flex: 1 }}
+        >
+          <View style={[styles.centeredView]}>
+            <View style={[styles.modalView, { height: height, width: width, backgroundColor: "#3E347C" }]}>
+              <View style={{ flex: 1, width: 300 }}>
+                <View style={{ flex: 1, flexDirection: "row", backgroundColor: "rgba(255,255,255,0.2)", maxHeight: 100, borderTopLeftRadius: 20, borderTopRightRadius: 20 }}>
+                  <Text style={{ color: "#FFFF", fontWeight: "bold", fontSize: 20, alignSelf: "center", marginLeft: 20 }}>Rizz  🍆💦</Text>
+                  <Switch
+                    trackColor={{ false: '#767577', true: '#81688A' }}
+                    thumbColor={isRizzEnabled ? '#7F528E' : '#f4f3f4'}
+                    onValueChange={() => setIsRizzEnabled(previousState => !previousState)}
+                    value={isRizzEnabled}
+                    style={{ transform: [{ scaleX: 1.5 }, { scaleY: 1.5 }], marginLeft: 100 }} />
+                </View>
+                <View style={{ flex: 1, flexDirection: "row", marginBottom: 0, backgroundColor: "rgba(255,255,255,0.1)", maxHeight: 100 }}>
+                  <Text style={{ color: "#FFFF", fontWeight: "bold", fontSize: 20, alignSelf: "center", marginLeft: 20 }}>Weather ☔</Text>
+                  <Switch
+                    trackColor={{ false: '#767577', true: '#81688A' }}
+                    thumbColor={isWeatherEnabled ? '#7F528E' : '#f4f3f4'}
+                    onValueChange={() => setIsWeatherEnabled(previousState => !previousState)}
+                    value={isWeatherEnabled}
+                    style={{ transform: [{ scaleX: 1.5 }, { scaleY: 1.5 }], marginLeft: 90 }} />
+                </View>
+                <View style={{ flex: 1, flexDirection: "row", marginBottom: 0, backgroundColor: "rgba(255,255,255,0.2)", maxHeight: 100 }}>
+                  <Text style={{ color: "#FFFF", fontWeight: "bold", fontSize: 20, alignSelf: "center", marginLeft: 20 }}>Jokes 😂</Text>
+                  <Switch
+                    trackColor={{ false: '#767577', true: '#81688A' }}
+                    thumbColor={isJokesEnabled ? '#7F528E' : '#f4f3f4'}
+                    onValueChange={() => setIsJokesEnabled(previousState => !previousState)}
+                    value={isJokesEnabled}
+                    style={{ transform: [{ scaleX: 1.5 }, { scaleY: 1.5 }], marginLeft: 110 }} />
+                </View>
+                <View style={{ flex: 1, flexDirection: "row", marginBottom: 0, backgroundColor: "rgba(255,255,255,0.1)", maxHeight: 100 }}>
+                  <Text style={{ color: "#FFFF", fontWeight: "bold", fontSize: 20, alignSelf: "center", marginLeft: 20 }}>Emojis</Text>
+                  <Switch
+                    trackColor={{ false: '#767577', true: '#81688A' }}
+                    thumbColor={isEmojisEnabled ? '#7F528E' : '#f4f3f4'}
+                    onValueChange={() => setIsEmojisEnabled(previousState => !previousState)}
+                    value={isEmojisEnabled}
+                    style={{ transform: [{ scaleX: 1.5 }, { scaleY: 1.5 }], marginTop: 0, marginLeft: 130 }} />
+                </View>
+                <View style={{ flex: 1, flexDirection: "column", marginBottom: 0, backgroundColor: "rgba(255,255,255,0.2)", maxHeight: 160, borderBottomLeftRadius: 20, borderBottomRightRadius: 20 }}>
+                  <Text style={{ color: "#FFFF", fontWeight: "bold", fontSize: 20, marginLeft: 20, marginTop: 40, maxHeight: 30 }}>Sarcasm level 😈</Text>
+                  <Slider
+                    style={{ width: 200, height: 40, alignSelf: "center", marginTop: 20 }}
+                    minimumValue={0}
+                    maximumValue={5}
+                    step={1}
+                    minimumTrackTintColor="#FFFFFF"
+                    maximumTrackTintColor="#000000"
+                    thumbTintColor="#FFFFFF"
+                    value={sarcasmLevel}
+                    onValueChange={setSarcasmLevel}
+                  />
+                </View>
+              </View>
+              <Pressable
+                style={[styles.button, styles.buttonClose]}
+                onPress={() => setModalVisible(!modalVisible)}>
+                <Text style={styles.textStyle}>Hide</Text>
+              </Pressable>
+            </View>
+          </View>
+        </Modal>
+      }
       <View style={styles.chatScreen1}>
         <View style={[styles.vectorParent, styles.groupChildLayout]}>
           <Image
@@ -139,7 +222,7 @@ const ChatCentre = ({ navigation }: Props) => {
         </TouchableOpacity>
         <Text style={styles.text}>{count}/300</Text>
       </View>
-    </Background>
+    </Background >
   );
 };
 
@@ -149,6 +232,42 @@ const styles = StyleSheet.create({
     alignItems: "center",
     gap: 18,
     paddingVertical: 18,
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 22,
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  buttonOpen: {
+    backgroundColor: '#F194FF',
+  },
+  buttonClose: {
+    backgroundColor: '#4A427C',
+  },
+  textStyle: {
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: 'center',
   },
   formWrapper: {
     backgroundColor: theme.colors.white,
