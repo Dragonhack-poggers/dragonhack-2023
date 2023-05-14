@@ -1,0 +1,314 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>DragonHack-2023</name>
+    </assembly>
+    <members>
+        <member name="T:DragonHack_2023.Controllers.CurrentNewsController">
+            <summary>
+            Controller for handling requests related to current news.
+            </summary>
+        </member>
+        <member name="F:DragonHack_2023.Controllers.CurrentNewsController.ApiKey">
+            <summary>
+            The News API key used for making requests.
+            </summary>
+        </member>
+        <member name="M:DragonHack_2023.Controllers.CurrentNewsController.#ctor(Microsoft.Extensions.Logging.ILogger{DragonHack_2023.Controllers.CurrentNewsController},System.Net.Http.IHttpClientFactory)">
+            <summary>
+            Constructor for the CurrentNewsController.
+            </summary>
+            <param name="logger">An instance of ILogger used for logging.</param>
+            <param name="clientFactory">An instance of IHttpClientFactory for creating HttpClient instances.</param>
+        </member>
+        <member name="M:DragonHack_2023.Controllers.CurrentNewsController.GetLatestHeadlines(System.String,System.Int32,System.String)">
+            <summary>
+            GET endpoint that returns latest news headlines.
+            </summary>
+            <param name="countryCode">The country code for which news are to be fetched.</param>
+            <param name="numberOfHeadlines">The number of news headlines to return. Default is 3.</param>
+            <param name="language">The language in which news are to be fetched. Default is 'si' (Slovenian).</param>
+            <returns>A list of latest news headlines for the given country and language.</returns>
+        </member>
+        <member name="T:DragonHack_2023.Controllers.HoroscopeController">
+            <summary>
+            Handles requests related to horoscopes for different astrological signs.
+            </summary>
+        </member>
+        <member name="M:DragonHack_2023.Controllers.HoroscopeController.GetHoroscope(System.String)">
+            <summary>
+            Retrieves the daily horoscope for the provided astrological sign.
+            </summary>
+            <param name="sign">Astrological sign. Must be a valid sign (aries, taurus, gemini, etc.).</param>
+            <returns>Daily horoscope for the provided astrological sign.</returns>
+        </member>
+        <member name="T:DragonHack_2023.Controllers.OnThisDayController">
+            <summary>
+            Controller for handling requests related to historical events on a given day.
+            </summary>
+        </member>
+        <member name="M:DragonHack_2023.Controllers.OnThisDayController.#ctor(Microsoft.Extensions.Logging.ILogger{DragonHack_2023.Controllers.OnThisDayController},System.Net.Http.IHttpClientFactory)">
+            <summary>
+            Constructor for the OnThisDayController.
+            </summary>
+            <param name="logger">An instance of ILogger used for logging.</param>
+            <param name="clientFactory">An instance of IHttpClientFactory for creating HttpClient instances.</param>
+        </member>
+        <member name="M:DragonHack_2023.Controllers.OnThisDayController.Get(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            GET endpoint that returns historical events for a given day.
+            </summary>
+            <param name="month">The month of the events.</param>
+            <param name="day">The day of the events.</param>
+            <param name="numberOfEvents">The number of events to return. Default is 5.</param>
+            <returns>A list of historical events for the given day.</returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:DragonHack_2023.Controllers.WeatherForecastController.Get(System.Double,System.Double)" -->
+        <member name="T:DragonHack_2023.Models.CurrentWeatherClass">
+            <summary>
+            Class representing the current weather forecast
+            </summary>
+        </member>
+        <member name="P:DragonHack_2023.Models.CurrentWeatherClass.Temperature">
+            <summary>
+            Current temperature
+            </summary>
+            <example>20.5</example>
+        </member>
+        <member name="P:DragonHack_2023.Models.CurrentWeatherClass.Windspeed">
+            <summary>
+            Current wind speed
+            </summary>
+            <example>5.2</example>
+        </member>
+        <member name="P:DragonHack_2023.Models.CurrentWeatherClass.Winddirection">
+            <summary>
+            Current wind direction
+            </summary>
+            <example>180</example>
+        </member>
+        <member name="P:DragonHack_2023.Models.CurrentWeatherClass.Weathercode">
+            <summary>
+            Weather code representing the current weather condition
+            </summary>
+            <example>100</example>
+        </member>
+        <member name="P:DragonHack_2023.Models.CurrentWeatherClass.Is_Day">
+            <summary>
+            Represents whether it is day or not. 1 for day, 0 for night.
+            </summary>
+            <example>1</example>
+        </member>
+        <member name="P:DragonHack_2023.Models.CurrentWeatherClass.Time">
+            <summary>
+            Time of the current weather data
+            </summary>
+            <example>"2023-05-13T14:35:00"</example>
+        </member>
+        <member name="T:DragonHack_2023.Models.NewsApiResponse">
+            <summary>
+            Represents the response from the News API.
+            </summary>
+        </member>
+        <member name="P:DragonHack_2023.Models.NewsApiResponse.Status">
+            <summary>
+            Gets or sets the status of the response.
+            </summary>
+        </member>
+        <member name="P:DragonHack_2023.Models.NewsApiResponse.TotalResults">
+            <summary>
+            Gets or sets the total number of results.
+            </summary>
+        </member>
+        <member name="P:DragonHack_2023.Models.NewsApiResponse.Articles">
+            <summary>
+            Gets or sets the list of articles in the response.
+            </summary>
+        </member>
+        <member name="T:DragonHack_2023.Models.Article">
+            <summary>
+            Represents an article in the news API response.
+            </summary>
+        </member>
+        <member name="P:DragonHack_2023.Models.Article.Source">
+            <summary>
+            Gets or sets the source of the article.
+            </summary>
+        </member>
+        <member name="P:DragonHack_2023.Models.Article.Author">
+            <summary>
+            Gets or sets the author of the article.
+            </summary>
+        </member>
+        <member name="P:DragonHack_2023.Models.Article.Title">
+            <summary>
+            Gets or sets the title of the article.
+            </summary>
+        </member>
+        <member name="P:DragonHack_2023.Models.Article.Description">
+            <summary>
+            Gets or sets the description of the article.
+            </summary>
+        </member>
+        <member name="P:DragonHack_2023.Models.Article.Url">
+            <summary>
+            Gets or sets the URL of the article.
+            </summary>
+        </member>
+        <member name="P:DragonHack_2023.Models.Article.UrlToImage">
+            <summary>
+            Gets or sets the URL of the image related to the article.
+            </summary>
+        </member>
+        <member name="P:DragonHack_2023.Models.Article.PublishedAt">
+            <summary>
+            Gets or sets the date and time the article was published.
+            </summary>
+        </member>
+        <member name="P:DragonHack_2023.Models.Article.Content">
+            <summary>
+            Gets or sets the content of the article.
+            </summary>
+        </member>
+        <member name="T:DragonHack_2023.Models.Source">
+            <summary>
+            Represents the source of an article.
+            </summary>
+        </member>
+        <member name="P:DragonHack_2023.Models.Source.Id">
+            <summary>
+            Gets or sets the ID of the source.
+            </summary>
+        </member>
+        <member name="P:DragonHack_2023.Models.Source.Name">
+            <summary>
+            Gets or sets the name of the source.
+            </summary>
+        </member>
+        <member name="T:DragonHack_2023.Models.EventSummary">
+            <summary>
+            Summary of an event.
+            </summary>
+        </member>
+        <member name="P:DragonHack_2023.Models.EventSummary.Year">
+            <summary>
+            Year of the event.
+            </summary>
+            <example>2023</example>
+        </member>
+        <member name="P:DragonHack_2023.Models.EventSummary.Description">
+            <summary>
+            Description of the event.
+            </summary>
+            <example>A significant event occurred this year.</example>
+        </member>
+        <member name="T:DragonHack_2023.Models.OnThisDayResponse">
+            <summary>
+            Response from the "on this day" API.
+            </summary>
+        </member>
+        <member name="P:DragonHack_2023.Models.OnThisDayResponse.Wikipedia">
+            <summary>
+            Link to the Wikipedia page for this date.
+            </summary>
+            <example>https://wikipedia.org/wiki/May_13</example>
+        </member>
+        <member name="P:DragonHack_2023.Models.OnThisDayResponse.Date">
+            <summary>
+            The date for which events are returned.
+            </summary>
+            <example>May 13</example>
+        </member>
+        <member name="P:DragonHack_2023.Models.OnThisDayResponse.Events">
+            <summary>
+            List of events for this date.
+            </summary>
+        </member>
+        <member name="T:DragonHack_2023.Models.Event">
+            <summary>
+            Details of an event.
+            </summary>
+        </member>
+        <member name="P:DragonHack_2023.Models.Event.Year">
+            <summary>
+            Year of the event.
+            </summary>
+            <example>2023</example>
+        </member>
+        <member name="P:DragonHack_2023.Models.Event.Description">
+            <summary>
+            Description of the event.
+            </summary>
+            <example>A significant event occurred this year.</example>
+        </member>
+        <member name="P:DragonHack_2023.Models.Event.Wikipedia">
+            <summary>
+            List of relevant Wikipedia links for this event.
+            </summary>
+        </member>
+        <member name="T:DragonHack_2023.Models.WikipediaLink">
+            <summary>
+            Wikipedia link related to an event.
+            </summary>
+        </member>
+        <member name="P:DragonHack_2023.Models.WikipediaLink.Title">
+            <summary>
+            Title of the Wikipedia page.
+            </summary>
+            <example>Article Title</example>
+        </member>
+        <member name="P:DragonHack_2023.Models.WikipediaLink.Wikipedia">
+            <summary>
+            Link to the Wikipedia page.
+            </summary>
+            <example>https://wikipedia.org/wiki/Article_Title</example>
+        </member>
+        <member name="P:DragonHack_2023.Models.WeatherForecastClass.Latitude">
+            <summary>
+            Latitude of the location
+            </summary>
+            <example>46.04</example>
+        </member>
+        <member name="P:DragonHack_2023.Models.WeatherForecastClass.Longitude">
+            <summary>
+             Longitude of the location
+             </summary>
+             <example>14.46</example>
+        </member>
+        <member name="P:DragonHack_2023.Models.WeatherForecastClass.GenerationtimeMs">
+            <summary>
+            Time it took to generate the forecast in milliseconds
+            </summary>
+            <example>0.27489662170410156</example>
+        </member>
+        <member name="P:DragonHack_2023.Models.WeatherForecastClass.UtcOffsetSeconds">
+            <summary>
+             UTC offset in seconds
+            </summary>
+            <example>0</example>
+        </member>
+        <member name="P:DragonHack_2023.Models.WeatherForecastClass.Timezone">
+            <summary>
+            Timezone of the location
+            </summary>
+            <example>GMT</example>
+        </member>
+        <member name="P:DragonHack_2023.Models.WeatherForecastClass.TimezoneAbbreviation">
+            <summary>
+             Timezone abbreviation of the location
+            </summary>
+            <example>GMT</example>
+        </member>
+        <member name="P:DragonHack_2023.Models.WeatherForecastClass.Elevation">
+            <summary>
+             Elevation of the location in meters
+            </summary>
+            <example>314</example>
+        </member>
+        <member name="P:DragonHack_2023.Models.WeatherForecastClass.CurrentWeather">
+            <summary>
+             Current weather forecast
+            </summary>
+        </member>
+    </members>
+</doc>

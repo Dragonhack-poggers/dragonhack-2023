@@ -1,0 +1,82 @@
+{
+  "format": 1,
+  "restore": {
+    "/home/fallinglights/git/DragonHack-2023/DragonHack-2023/DragonHack-2023.csproj": {}
+  },
+  "projects": {
+    "/home/fallinglights/git/DragonHack-2023/DragonHack-2023/DragonHack-2023.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/fallinglights/git/DragonHack-2023/DragonHack-2023/DragonHack-2023.csproj",
+        "projectName": "DragonHack-2023",
+        "projectPath": "/home/fallinglights/git/DragonHack-2023/DragonHack-2023/DragonHack-2023.csproj",
+        "packagesPath": "/home/fallinglights/.nuget/packages/",
+        "outputPath": "/home/fallinglights/git/DragonHack-2023/DragonHack-2023/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/fallinglights/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net7.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net7.0": {
+            "targetAlias": "net7.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net7.0": {
+          "targetAlias": "net7.0",
+          "dependencies": {
+            "HtmlAgilityPack": {
+              "target": "Package",
+              "version": "[1.11.46, )"
+            },
+            "Microsoft.AspNetCore.OpenApi": {
+              "target": "Package",
+              "version": "[7.0.5, )"
+            },
+            "Swashbuckle.AspNetCore": {
+              "target": "Package",
+              "version": "[6.4.0, )"
+            },
+            "Swashbuckle.AspNetCore.Filters": {
+              "target": "Package",
+              "version": "[7.0.6, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/7.0.203/RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
