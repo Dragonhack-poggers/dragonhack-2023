@@ -83,7 +83,7 @@ With ChatBuddy, you no longer have to worry about struggling to come up with the
 
 ### Built With
 
-* [![React][React.js]][React-url]
+* [![ReactNative][React]][React-url]
 * [![.NET][.NET]][.NET-url]
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -126,10 +126,8 @@ This is an example of how to list things you need to use the software and how to
    ```sh
    npm install
    ```
-4. Enter your API in `config.js`
-   ```js
-   const API_KEY = 'ENTER YOUR API';
-   ```
+   
+4. Install Expo Library and Expo Go Mobile App
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -138,9 +136,16 @@ This is an example of how to list things you need to use the software and how to
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
-
-_For more examples, please refer to the [Documentation](https://example.com)_
+1. Run Expo
+```
+npx expo start
+```
+2. Run Backend Server
+```
+dotnet backend/DragonHack-2023/bin/Debug/net7.0
+/DragonHack-2023.dll
+```
+3. Run Expo Go and scan QR code generated in first step
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -149,10 +154,9 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 <!-- ROADMAP -->
 ## Roadmap
 
-- [ ] Feature 1
-- [ ] Feature 2
-- [ ] Feature 3
-    - [ ] Nested Feature
+- [ ] Integrate with messaging providers
+- [ ] Include more parameter settings 
+- [ ] Add image generation feature
 
 See the [open issues](https://github.com/Dragonhack-poggers/dragonhack-2023/issues) for a full list of proposed features (and known issues).
 
@@ -208,8 +212,8 @@ Project Link: [https://github.com/Dragonhack-poggers/dragonhack-2023](https://gi
 [product-screenshot]: images/screenshot.png
 [Next.js]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
 [Next-url]: https://nextjs.org/
-[React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
-[React-url]: https://reactjs.org/
+[React]: https://img.shields.io/badge/React-Native-20232A?style=for-the-badge&logo=reactnative&logoColor=61DAFB
+[React-url]: https://reactnative.dev/
 [.NET]: https://img.shields.io/badge/.NET-20232A?style=for-the-badge&logo=.NET&logoColor=61DAFB%20
 [.NET-url]: https://dotnet.microsoft.com/en-us/
 [Vue.js]: https://img.shields.io/badge/Vue.js-35495E?style=for-the-badge&logo=vuedotjs&logoColor=4FC08D
