@@ -74,6 +74,7 @@
   <a href="https://github.com/Dragonhack-poggers/dragonhack-2023">
     <img src="product.png" alt="Product Image">
   </a>
+</div>
 <br />
   
 ChatBuddy is a mobile application available on both Android and iOS platforms that offers a convenient solution for finding the perfect response to any message you receive. With its simple and user-friendly interface, you can easily input the message from your conversation partner and customize various parameters such as the influence of weather, charm, sarcasm, use of humor, and more to generate an appropriate response.
