@@ -52,7 +52,7 @@ const AppStore = ({ children }: { children: React.ReactNode | React.ReactNode[] 
   };
 
   useEffect(() => {
-    setTimeout(() => setHadSplashScreenLoaded(true), 4000)
+    setTimeout(() => setHadSplashScreenLoaded(true), 6000)
   }, []);
   if (!hasSplashScreenLoaded) {
     return <SplashScreen />
