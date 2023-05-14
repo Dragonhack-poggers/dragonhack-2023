@@ -1,2 +1,3 @@
 # ChatBuddy: Need a chatty hook? Just let us cook.
-A repository dedicated to dragonhack-2023
+
+ChatBuddy is a mobile app for iOS and Android.
