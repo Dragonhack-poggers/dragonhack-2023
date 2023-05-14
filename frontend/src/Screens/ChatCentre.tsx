@@ -28,8 +28,6 @@ const Border = {
   br_11xl: 30,
 };
 
-
-
 type Props = StackScreenProps<MainStackParams, "ChatCentre">;
 
 export type PetColorOption = {
@@ -49,10 +47,22 @@ const ChatCentre = ({ navigation }: Props) => {
 
   const [isRizzEnabled, setIsRizzEnabled] = useState(false);
   const [isWeatherEnabled, setIsWeatherEnabled] = useState(false);
-  const [weatheForecast, setWeatheForecast] = useState("");
+  const [weatheForecast, setWeatheForecast] = useState("Rainy");
   const [isJokesEnabled, setIsJokesEnabled] = useState(false);
   const [isEmojisEnabled, setIsEmojisEnabled] = useState(false);
   const [sarcasmLevel, setSarcasmLevel] = useState(5);
+
+  const instructionBuilder = () => {
+    const isRizz = isRizzEnabled ? "Make the message charming and seducing." : "";
+    const weather = isWeatherEnabled ? "In the message you can refer the message with the current weather, which is " + weatheForecast : "";
+    const isJoke = isJokesEnabled ? "Include a joke/jokes in the message." : "";
+    const isEmoji = isEmojisEnabled ? "Include emoji/emojis in the message." : "";
+    const sarcasm = sarcasmLevel > 0 ? "Sarcasm level of the message: " + sarcasmLevel + "/5" : "";
+    const characterLimit = "Limit your response to 150 characters. And only make full sentences."
+
+    const overallInstruction = isRizz + weather + isJoke + isEmoji + sarcasm + "Return response message based on my following input without headers: " + text + "." + characterLimit;
+    return overallInstruction;
+  }
 
   const handleTextChange = (newText: string) => {
     setText(newText);
@@ -63,14 +73,18 @@ const ChatCentre = ({ navigation }: Props) => {
     setModalVisible(!modalVisible)
   }
 
+  useEffect(() => {
+    console.log(weatheForecast)
+  }, [weatheForecast]);
+
   const getWeather = async () => {
     const requestOptions = {
       method: 'GET'
     };
 
-    fetch("5.75.161.45:8080/WeatherForecast?latitude=41.19&longitude=14.66", requestOptions)
-      .then(response => response.text())
-      .then(result => setWeatheForecast(result))
+    await fetch("http://5.75.161.45:8080/WeatherForecast?latitude=41.19&longitude=14.66", requestOptions)
+      .then(response => response.json())
+      .then(result => setWeatheForecast(result.forecast))
       .catch(error => console.log('error', error));
   }
 
@@ -86,7 +100,7 @@ const ChatCentre = ({ navigation }: Props) => {
     console.log("generate")
     //const prompt = 'Give me relationship advice, give me 3 advices';
     const model = 'gpt-4';
-    const maxTokens = 200;
+    const maxTokens = 50;
 
     const openaiEndpoint = 'https://openai-api.meetings.bio/api/openai/chat/completions';
     const apiKey2 = 'je4DnpKkAMEutcMQ51IszBh0w2jfeW';
@@ -97,10 +111,10 @@ const ChatCentre = ({ navigation }: Props) => {
       Authorization: `Bearer ${apiKey}`,
     };
 
-
+    const textMessage = instructionBuilder();
 
     const data = {
-      messages: [{ role: "user", content: text }],
+      messages: [{ role: "user", content: textMessage }],
       model: model,
       max_tokens: maxTokens,
       n: 2,
