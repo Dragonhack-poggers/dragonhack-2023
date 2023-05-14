@@ -310,5 +310,10 @@
              Current weather forecast
             </summary>
         </member>
+        <member name="P:DragonHack_2023.Models.WeatherReturnClass.forecast">
+            <summary>
+            forecast of the location
+            </summary>
+        </member>
     </members>
 </doc>

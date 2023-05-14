@@ -42,7 +42,7 @@ public class WeatherForecastController : ControllerBase
     [ProducesResponseType(typeof(WeatherForecastClass), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [Produces("application/json")]
-    public async Task<ActionResult<WeatherForecastClass>> Get(double latitude, double longitude)
+    public async Task<ActionResult<WeatherReturnClass>> Get(double latitude, double longitude)
     {
         // Create a HttpClient instance
         var client = _clientFactory.CreateClient();
@@ -58,13 +58,141 @@ public class WeatherForecastController : ControllerBase
 
             // Deserialize the JSON string into a WeatherForecastClass object
             var weatherForecast = JsonSerializer.Deserialize<WeatherForecastClass>(json);
+        
+            // Create a new WeatherReturnClass object
+            var weatherReturn = new WeatherReturnClass();
+
+            // Create an instance of WeatherCodeMapping and get the weather description
+            var weatherCodeMapping = new WeatherCodeMapping();
+            weatherReturn.forecast = weatherCodeMapping.GetWeatherCondition(weatherForecast.CurrentWeather.Weathercode.ToString("D2"));
 
             // Return the weather forecast with a 200 OK status
-            return Ok(weatherForecast);
+            return Ok(weatherReturn);
         }
 
         // If the request is not successful, log an error and return the status code from the external API
         _logger.LogError("Failed to retrieve weather forecast. Status Code: {ResponseStatusCode}", response.StatusCode);
         return StatusCode((int)response.StatusCode);
+    }
+}
+
+public class WeatherCodeMapping
+{
+    public Dictionary<string, string> WeatherDictionary { get; set; }
+
+    public WeatherCodeMapping()
+    {
+        WeatherDictionary = new Dictionary<string, string>
+        {
+            {"00", "Clear"},
+            {"01", "Clear"},
+            {"02", "Clear"},
+            {"03", "Cloudy"},
+            {"04", "Smoky"},
+            {"05", "Hazy"},
+            {"06", "Dusty"},
+            {"07", "Windy"},
+            {"08", "Dusty"},
+            {"09", "Dusty"},
+            {"10", "Misty"},
+            {"11", "Foggy"},
+            {"12", "Foggy"},
+            {"13", "Lightning"},
+            {"14", "Precipitation"},
+            {"15", "Precipitation"},
+            {"16", "Precipitation"},
+            {"17", "Thunderstorm"},
+            {"18", "Squalls"},
+            {"19", "Funnel Cloud"},
+            {"20", "Drizzle"},
+            {"21", "Rainy"},
+            {"22", "Snowy"},
+            {"23", "Rain and Snow"},
+            {"24", "Freezing Drizzle"},
+            {"25", "Rain Showers"},
+            {"26", "Snow Showers"},
+            {"27", "Hail"},
+            {"28", "Foggy"},
+            {"29", "Thunderstorm"},
+            {"30", "Duststorm"},
+            {"31", "Duststorm"},
+            {"32", "Duststorm"},
+            {"33", "Severe Duststorm"},
+            {"34", "Severe Duststorm"},
+            {"35", "Severe Duststorm"},
+            {"36", "Blowing Snow"},
+            {"37", "Heavy Drifting Snow"},
+            {"38", "Blowing Snow"},
+            {"39", "Heavy Drifting Snow"},
+            {"40", "Foggy"},
+            {"41", "Foggy"},
+            {"42", "Foggy"},
+            {"43", "Foggy"},
+            {"44", "Foggy"},
+            {"45", "Foggy"},
+            {"46", "Foggy"},
+            {"47", "Foggy"},
+            {"48", "Foggy"},
+            {"49", "Foggy"},
+            {"50", "Drizzle"},
+            {"51", "Drizzle"},
+            {"52", "Drizzle"},
+            {"53", "Drizzle"},
+            {"54", "Heavy Drizzle"},
+            {"55", "Heavy Drizzle"},
+            {"56", "Freezing Drizzle"},
+            {"57", "Freezing Drizzle"},
+            {"58", "Rain and Drizzle"},
+            {"59", "Heavy Rain and Drizzle"},
+            {"60", "Rainy"},
+            {"61", "Rainy"},
+            {"62", "Rainy"},
+            {"63", "Rainy"},
+            {"64", "Heavy Rain"},
+            {"65", "Heavy Rain"},
+            {"66", "Freezing Rain"},
+            {"67", "Freezing Rain"},
+            {"68", "Snow and Rain"},
+            {"69", "Heavy Snow and Rain"},
+            {"70", "Snowy"},
+            {"71", "Snowy"},
+            {"72", "Snowy"},
+            {"73", "Snowy"},
+            {"74", "Heavy Snow"},
+            {"75", "Heavy Snow"},
+            {"76", "Ice"},
+            {"77", "Snowy"},
+            {"78", "Snowy"},
+            {"79", "Ice Pellets"},
+            {"80", "Rain Showers"},
+            {"81", "Rain Showers"},
+            {"82", "Rain Showers"},
+            {"83", "Snow and Rain Showers"},
+            {"84", "Snow and Rain Showers"},
+            {"85", "Snow Showers"},
+            {"86", "Snow Showers"},
+            {"87", "Snow and Rain Showers"},
+            {"88", "Snow and Rain Showers"},
+            {"89", "Hail"},
+            {"90", "Hail"},
+            {"91", "Rainy"},
+            {"92", "Rainy"},
+            {"93", "Snow and Rain"},
+            {"94", "Snow and Rain"},
+            {"95", "Thunderstorm"},
+            {"96", "Thunderstorm"},
+            {"97", "Thunderstorm"},
+            {"98", "Duststorm"},
+            {"99", "Thunderstorm"}
+        };
+    }
+
+    public string GetWeatherCondition(string code)
+    {
+        if (WeatherDictionary.TryGetValue(code, out var weatherCondition))
+        {
+            return weatherCondition;
+        }
+        return "Unknown";
     }
 }
