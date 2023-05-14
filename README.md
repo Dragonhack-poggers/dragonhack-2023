@@ -212,7 +212,7 @@ Project Link: [https://github.com/Dragonhack-poggers/dragonhack-2023](https://gi
 [product-screenshot]: images/screenshot.png
 [Next.js]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
 [Next-url]: https://nextjs.org/
-[React]: https://img.shields.io/badge/React-Native-20232A?style=for-the-badge&logo=reactnative&logoColor=61DAFB
+[React]: https://img.shields.io/badge/react_native-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB
 [React-url]: https://reactnative.dev/
 [.NET]: https://img.shields.io/badge/.NET-20232A?style=for-the-badge&logo=.NET&logoColor=61DAFB%20
 [.NET-url]: https://dotnet.microsoft.com/en-us/
