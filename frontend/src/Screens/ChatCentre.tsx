@@ -1,18 +1,17 @@
-import { View, Text, StyleSheet, TouchableOpacity, TextInput, Image, Modal, Pressable, Dimensions, Switch } from "react-native";
-import React, { useEffect, useState } from "react";
+import { View, Text, StyleSheet, TouchableOpacity, TextInput, Image, Modal, Pressable, Dimensions, Switch, YellowBox } from "react-native";
+import React, { useEffect, useRef, useState } from "react";
 import Background from "../components/Background";
 import { theme } from "../theme";
 import { PetColors } from "../data/types";
-import PetColorPicker from "../components/PetColorPicker";
-import Pet from "../components/Pet";
-import { useAppStore } from "../store/app-store";
 import { MainStackParams } from "../Main";
 import { StackScreenProps } from "@react-navigation/stack";
 import { LinearGradient } from "expo-linear-gradient";
 import axios from "axios";
 import Slider from '@react-native-community/slider';
 import Carousel from 'react-native-snap-carousel';
+import Clipboard from '@react-native-clipboard/clipboard';
 
+YellowBox.ignoreWarnings(['Warning: ViewPropTypes']);
 const { width, height } = Dimensions.get("window");
 const GIF_ANIMATION = require("frontend/assets/loading.gif");
 /* font sizes */
@@ -41,9 +40,12 @@ const ChatCentre = ({ navigation }: Props) => {
   const [text, setText] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isChosenResponse, setIsChosenResponse] = useState(true);
+  const [isResponseDisplayed, setIsResponseDisplayed] = useState(false);
+
 
   const [modalVisible, setModalVisible] = useState(false);
-  const [chosenResponse, setChosenResponse] = useState<Array<String>>();
+  const [chosenResponse, setChosenResponse] = useState<ArrayLike<any> | readonly any[]>([]);
+  const [selectedResponse, setSelectedResponse] = useState("");
 
   const [isRizzEnabled, setIsRizzEnabled] = useState(false);
   const [isWeatherEnabled, setIsWeatherEnabled] = useState(false);
@@ -51,6 +53,8 @@ const ChatCentre = ({ navigation }: Props) => {
   const [isJokesEnabled, setIsJokesEnabled] = useState(false);
   const [isEmojisEnabled, setIsEmojisEnabled] = useState(false);
   const [sarcasmLevel, setSarcasmLevel] = useState(5);
+
+  const refCarousel = useRef(null);
 
   const instructionBuilder = () => {
     const isRizz = isRizzEnabled ? "Make the message charming and seducing." : "";
@@ -72,11 +76,6 @@ const ChatCentre = ({ navigation }: Props) => {
   const handleMenuClick = async () => {
     setModalVisible(!modalVisible)
   }
-
-  useEffect(() => {
-    console.log(weatheForecast)
-  }, [weatheForecast]);
-
   const getWeather = async () => {
     const requestOptions = {
       method: 'GET'
@@ -97,8 +96,7 @@ const ChatCentre = ({ navigation }: Props) => {
   const handleGenerateButtonClick = async () => {
     setIsChosenResponse(false);
     setIsLoading(true);
-    console.log("generate")
-    //const prompt = 'Give me relationship advice, give me 3 advices';
+
     const model = 'gpt-4';
     const maxTokens = 50;
 
@@ -131,7 +129,6 @@ const ChatCentre = ({ navigation }: Props) => {
         const answer2 = response.data.choices[1].message.content
         array.push(answer2)
         setChosenResponse(array);
-        console.log(answer, answer2);
         setIsLoading(false);
       })
       .catch((error) => {
@@ -139,20 +136,86 @@ const ChatCentre = ({ navigation }: Props) => {
       });
   }
 
-  /*const renderCarouselItem = ({item, index}) => {
+  const handleFlashcardClick = (item: string) => {
+    setSelectedResponse(item);
+    setIsResponseDisplayed(true);
+    setIsChosenResponse(true);
+  }
+
+  const renderResponseCard = () => {
+
+    const handleCopyToClipboard = () => {
+      const string = selectedResponse ?? "hey";
+      console.warn("result:" + string)
+    }
+
+    const handleDeleteResponse = () => {
+      setIsChosenResponse(true);
+      setIsResponseDisplayed(false);
+    }
+
     return (
-        <View style={styles.slide}>
-            <Text style={styles.title}>{ item.title }</Text>
+      <View style={[styles.chatScreen1, { marginTop: 300 }]}>
+        <View style={[styles.vectorParent, styles.groupChildLayout]}>
+          <Image
+            style={[styles.groupChild, styles.groupPosition, { height: 225, backgroundColor: "#533F77" }]}
+            resizeMode="cover"
+            source={require("frontend/assets/rectangle-11.png")}
+          />
+          <TextInput
+            style={[styles.input, styles.inputText, { height: 150 }]}
+            placeholder="Here should be your response"
+            value={selectedResponse}
+            multiline={true}
+            editable={false}
+          />
+          <TouchableOpacity onPress={handleCopyToClipboard}>
+            <Image
+              style={[styles.groupItem, { left: 150 }]}
+              resizeMode="cover"
+              source={require("frontend/assets/copyicon4.png")}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={handleDeleteResponse}>
+            <Image
+              style={[styles.groupItem, { left: 100 }]}
+              resizeMode="cover"
+              source={require("frontend/assets/kosek.png")}
+            />
+          </TouchableOpacity>
+
         </View>
+      </View>
     );
-  }*/
+  }
+
+  const renderCarouselItem = ({ item, index }: { item: string, index: number }) => {
+    // TO-DO: Add touchable opacity and select setIsChosenResponse(false);
+    return (
+      <View style={{ marginTop: 250, backgroundColor: "#DDDDDD", borderRadius: 30, height: 350, width: 300 }}>
+        <TouchableOpacity onPress={() => handleFlashcardClick(item)}>
+          <Text style={styles.title}>{item}</Text>
+          <Text style={[styles.title, { color: theme.colors.purple }]}>{index + 1}</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
 
   return (
     <Background>
-      {(isLoading /*|| !isChosenResponse*/) &&
+      {(isLoading || !isChosenResponse) &&
         <View style={{ flex: 1, position: "absolute", backgroundColor: "rgba(100,100,100,0.8)", height: "100%", width: "100%", zIndex: 10, alignItems: "center" }} >
           {isLoading && <Image style={{ flex: 1, position: "absolute" }} source={GIF_ANIMATION} resizeMode="contain" />}
-          {!isChosenResponse && <View />}
+          {!isChosenResponse &&
+            <Carousel
+              ref={refCarousel}
+              data={chosenResponse as any}
+              renderItem={renderCarouselItem}
+              sliderWidth={300}
+              itemWidth={300}
+              layout={'stack'}
+            />
+          }
         </View>}
       {modalVisible &&
         <Modal
@@ -240,9 +303,9 @@ const ChatCentre = ({ navigation }: Props) => {
           />
           <TouchableOpacity onPress={handleGenerateButtonClick}>
             <Image
-              style={styles.groupItem}
+              style={[styles.groupItem]}
               resizeMode="cover"
-              source={require("frontend/assets/group-44.png")}
+              source={require("frontend/assets/generateicon2.png")}
             />
           </TouchableOpacity>
         </View>
@@ -254,7 +317,9 @@ const ChatCentre = ({ navigation }: Props) => {
           />
         </TouchableOpacity>
         <Text style={styles.text}>{count}/300</Text>
+        {isResponseDisplayed && renderResponseCard()}
       </View>
+
     </Background >
   );
 };
@@ -322,10 +387,13 @@ const styles = StyleSheet.create({
     minHeight: 250,
   },
   title: {
-    color: theme.colors.white,
+    color: theme.colors.black,
     fontSize: 24,
     lineHeight: 32,
     fontWeight: "700",
+    textAlign: 'center',
+    marginVertical: 20,
+    marginHorizontal: 20
   },
   subtitle: {
     color: theme.colors.b1,

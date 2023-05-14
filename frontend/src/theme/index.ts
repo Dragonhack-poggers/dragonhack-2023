@@ -16,5 +16,6 @@ export const theme = {
     pink: "#FFD4EE",
     purple: "#403583",
     orange: "rgba(224, 128, 70, 0.36)",
+    black: "#000000"
   },
 };
