@@ -10,9 +10,6 @@ import { MainStackParams } from "../Main";
 import { StackScreenProps } from "@react-navigation/stack";
 import { LinearGradient } from "expo-linear-gradient";
 
-const FontFamily = {
-  aBeeZeeRegular: "ABeeZee_regular",
-};
 /* font sizes */
 const FontSize = {
   size_lg: 18,
@@ -179,7 +176,6 @@ const styles = StyleSheet.create({
     color: Color.thistle,
     left: 22,
     textAlign: "left",
-    fontFamily: FontFamily.aBeeZeeRegular,
     lineHeight: 27,
     fontSize: FontSize.size_lg,
     position: "absolute",
@@ -247,7 +243,6 @@ const styles = StyleSheet.create({
     width: 89,
     height: 36,
     textAlign: "left",
-    fontFamily: FontFamily.aBeeZeeRegular,
     lineHeight: 27,
     fontSize: FontSize.size_lg,
     position: "absolute",
