@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, TouchableOpacity, TextInput, Image, Modal, Pressable, Dimensions, Switch } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Background from "../components/Background";
 import { theme } from "../theme";
 import { PetColors } from "../data/types";
@@ -28,6 +28,8 @@ const Border = {
   br_11xl: 30,
 };
 
+
+
 type Props = StackScreenProps<MainStackParams, "ChatCentre">;
 
 export type PetColorOption = {
@@ -47,11 +49,10 @@ const ChatCentre = ({ navigation }: Props) => {
 
   const [isRizzEnabled, setIsRizzEnabled] = useState(false);
   const [isWeatherEnabled, setIsWeatherEnabled] = useState(false);
+  const [weatheForecast, setWeatheForecast] = useState("");
   const [isJokesEnabled, setIsJokesEnabled] = useState(false);
   const [isEmojisEnabled, setIsEmojisEnabled] = useState(false);
   const [sarcasmLevel, setSarcasmLevel] = useState(5);
-
-  const { createPet } = useAppStore();
 
   const handleTextChange = (newText: string) => {
     setText(newText);
@@ -60,8 +61,24 @@ const ChatCentre = ({ navigation }: Props) => {
 
   const handleMenuClick = async () => {
     setModalVisible(!modalVisible)
-    // Open modal for filters/parameters
   }
+
+  const getWeather = async () => {
+    const requestOptions = {
+      method: 'GET'
+    };
+
+    fetch("5.75.161.45:8080/WeatherForecast?latitude=41.19&longitude=14.66", requestOptions)
+      .then(response => response.text())
+      .then(result => setWeatheForecast(result))
+      .catch(error => console.log('error', error));
+  }
+
+  useEffect(() => {
+    if (isWeatherEnabled) {
+      getWeather();
+    }
+  }, [isWeatherEnabled]);
 
   const handleGenerateButtonClick = async () => {
     setIsChosenResponse(false);
@@ -79,6 +96,8 @@ const ChatCentre = ({ navigation }: Props) => {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${apiKey}`,
     };
+
+
 
     const data = {
       messages: [{ role: "user", content: text }],
