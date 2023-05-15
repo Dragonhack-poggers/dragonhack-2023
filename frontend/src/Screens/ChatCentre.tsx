@@ -11,7 +11,6 @@ import Slider from '@react-native-community/slider';
 import Carousel from 'react-native-snap-carousel';
 import Clipboard from '@react-native-clipboard/clipboard';
 
-YellowBox.ignoreWarnings(['Warning: ViewPropTypes']);
 const { width, height } = Dimensions.get("window");
 const GIF_ANIMATION = require("frontend/assets/loading.gif");
 /* font sizes */
@@ -146,10 +145,10 @@ const ChatCentre = ({ navigation }: Props) => {
 
     const handleCopyToClipboard = () => {
       const string = selectedResponse ?? "hey";
-      console.warn("result:" + string)
     }
 
     const handleDeleteResponse = () => {
+      setChosenResponse([]);
       setIsChosenResponse(true);
       setIsResponseDisplayed(false);
     }
@@ -206,7 +205,7 @@ const ChatCentre = ({ navigation }: Props) => {
       {(isLoading || !isChosenResponse) &&
         <View style={{ flex: 1, position: "absolute", backgroundColor: "rgba(100,100,100,0.8)", height: "100%", width: "100%", zIndex: 10, alignItems: "center" }} >
           {isLoading && <Image style={{ flex: 1, position: "absolute" }} source={GIF_ANIMATION} resizeMode="contain" />}
-          {!isChosenResponse &&
+          {(!isChosenResponse && chosenResponse && chosenResponse.length > 0) &&
             <Carousel
               ref={refCarousel}
               data={chosenResponse as any}
